@@ -1,11 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-
 struct node {
     int info;
     struct node *next;
 };
-
 typedef struct node* NODE;
 
 NODE insertFront(NODE first);
@@ -40,7 +38,7 @@ NODE insertRear(NODE first) {
     temp->next = NULL;
 
     if (first == NULL) {
-        return temp;  // new node becomes the first
+        return temp;
     }
 
     NODE cur = first;
@@ -169,13 +167,41 @@ NODE insertAfterNode(NODE first, int key) {
 
     return first;
 }
+NODE deleteElement(NODE first, int key) {
+    if (first == NULL) {
+        printf("List is empty\n");
+        return NULL;
+    }
+    NODE cur = first;
+    NODE prev = NULL;
+    if (cur->info == key) {
+        first = cur->next;
+        printf("Deleted element: %d\n", cur->info);
+        free(cur);
+        return first;
+    }
+    while (cur != NULL && cur->info != key) {
+        prev = cur;
+        cur = cur->next;
+    }
+
+    if (cur == NULL) {
+        printf("Element %d not found in the list\n", key);
+        return first;
+    }
+    prev->next = cur->next;
+    printf("Deleted element: %d\n", cur->info);
+    free(cur);
+    return first;
+}
+
 int main() {
     NODE first = NULL;
     int choice, pos, key;
 
     while (1) {
         printf("\n1. Insert Front\n2. Insert Rear\n3. Delete Front\n4. Delete Rear\n");
-        printf("5. Insert at any position\n6. Insert After a node\n7. Display\n8. Exit\n");
+        printf("5. Insert at any position\n6. Insert After a node\n7. Delete an element\n8. Display\n9. Exit\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
         switch (choice) {
@@ -193,10 +219,16 @@ int main() {
                 scanf("%d", &key);
                 first = insertAfterNode(first, key);
                 break;
-            case 7: display(first); break;
-            case 8: exit(0);
+            case 7:
+                printf("Enter element to delete: ");
+                scanf("%d", &key);
+                first = deleteElement(first, key);
+                break;
+            case 8: display(first); break;
+            case 9: exit(0);
             default: printf("Invalid choice\n");
         }
     }
     return 0;
 }
+
