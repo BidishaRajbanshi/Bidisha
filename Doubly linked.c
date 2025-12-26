@@ -1,11 +1,10 @@
-// Doubly linked list
 #include <stdio.h>
 #include <stdlib.h>
 
 struct node {
     int info;
-    struct node *rlink;
-    struct node *rlink;
+    struct node *llink;  
+    struct node *rlink;   
 };
 typedef struct node* NODE;
 
@@ -14,6 +13,7 @@ NODE insertRear(NODE first);
 NODE deleteFront(NODE first);
 NODE deleteRear(NODE first);
 void display(NODE first);
+
 int main() {
     NODE first = NULL;
     int choice;
@@ -72,6 +72,7 @@ NODE insertFront(NODE first) {
     }
     return newNode;
 }
+
 NODE insertRear(NODE first) {
     int item;
     NODE newNode = (NODE)malloc(sizeof(struct node));
